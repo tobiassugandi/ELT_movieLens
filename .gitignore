@@ -1,3 +1,22 @@
 .DS_Store
 ml-32m
 dummy_exploratory.ipynb
+scratch_paper.txt
+
+# Local Terraform directories and files
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+*.tfvars.json
+
+# Crash log files
+crash.log
+
+# Terraform plan output files
+*.tfplan
+
+# Ignore logs and debugging output
+*.log
+*.tfout
