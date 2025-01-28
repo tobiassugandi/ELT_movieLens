@@ -2,6 +2,7 @@
 ml-32m
 dummy_exploratory.ipynb
 scratch_paper.txt
+kestra-orchestration/gcp_kv.yaml
 
 # Local Terraform directories and files
 .terraform/

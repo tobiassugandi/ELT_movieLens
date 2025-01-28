@@ -1,0 +1,53 @@
+id: extract_load
+namespace: data-project
+description: Download and extract raw data, upload to GCS, then to BigQuery
+
+variables:
+  link: "https://files.grouplens.org/datasets/movielens/ml-32m.zip"
+
+tasks:
+
+  - id: download_file
+    type: io.kestra.plugin.core.http.Download
+    uri: "{{render(vars.link)}}"
+
+  - id: unzip
+    type: io.kestra.plugin.compress.ArchiveDecompress
+    algorithm: ZIP
+    from: "{{ outputs.download_file.uri }}"
+
+  - id: parallel_upload
+    type: io.kestra.plugin.core.flow.Parallel
+    tasks:
+      - id: ratings
+        type: io.kestra.plugin.gcp.gcs.Upload
+        from: "{{ outputs.unzip.files['ml-32m/ratings.csv'] }}"
+        to: "gs://{{kv('GCP_BUCKET_NAME')}}/ratings.csv" 
+
+      - id: movies
+        type: io.kestra.plugin.gcp.gcs.Upload
+        from: "{{ outputs.unzip.files['ml-32m/movies.csv'] }}"
+        to: "gs://{{kv('GCP_BUCKET_NAME')}}/movies.csv"
+
+      - id: links
+        type: io.kestra.plugin.gcp.gcs.Upload
+        from: "{{ outputs.unzip.files['ml-32m/links.csv'] }}"
+        to: "gs://{{kv('GCP_BUCKET_NAME')}}/links.csv"
+
+      - id: tags
+        type: io.kestra.plugin.gcp.gcs.Upload
+        from: "{{ outputs.unzip.files['ml-32m/tags.csv'] }}"
+        to: "gs://{{kv('GCP_BUCKET_NAME')}}/tags.csv"
+
+  - id: purge_files
+    type: io.kestra.plugin.core.storage.PurgeCurrentExecutionFiles
+    description: To avoid cluttering your storage, we will remove the downloaded files
+
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+      serviceAccount: "{{kv('GCP_CREDS')}}"
+      project: "{{kv('GCP_PROJECT_ID')}}"
+      location: "{{kv('GCP_LOCATION')}}"
+      bucket: "{{kv('GCP_BUCKET_NAME')}}"
