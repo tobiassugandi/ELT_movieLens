@@ -1,18 +1,66 @@
-# Personal Project 
-an Extract Load Transform (ELT) Pipeline of a movie dataset from MovieLens / GroupLens.
+> The Shawshank Redemption (1994) is the highest rated among popular movies (>10,000 ratings).
+
+# An ETL Pipeline -- Personal Project 
+A simple end-to-end Extract Load Transform (ELT) Pipeline of a movie dataset from MovieLens / GroupLens.
+
+$$
+\underbrace{ \text{Provisioning} }_{ \text{Terraform} } \to \underbrace{ \text{Extract Load} }_{ \text{Kestra} } \to \underbrace{ \text{Transform} }_{ \text{dbt} } \to \underbrace{ \text{BI/Vis} }_{ \text{LookerStudio} }
+$$
 
 Tools:
-- IaC: Terraform
+- Infrastructure as Code: 
+    - Terraform
 - Orchestration: 
     - Kestra
 - Data Lake: 
     - Google Cloud Storage (GCS)
 - Data Warehouse
     - Google BigQuery
-- Transformation: DBT
-- BI / Viz: LookerStudio
+- Transformation: 
+    - dbt
+- BI / Viz: 
+    - LookerStudio
 
-# Original MovieLens Readme
+## 📊 Looker Studio Dashboard
+
+📌 **Preview the Dashboard Below** ⬇️
+
+![Dashboard Preview](dashboard.png)
+The dashboard file is `dashboard.png`.
+
+## Steps to reproduce
+- 1 Connect your machine to google cloud
+    - `gcloud auth login`
+    - `gcloud config set project \[YOUR_PROJECT_ID\]`
+    - `gcloud auth application-default login`
+- 2 Provision infrastructure (storage bucket and empty bigquery dataset)
+    - open terraform folder `cd terraform-gcp-infra` 
+    - `terraform init`
+    - `terraform apply -var="project_id=\[YOUR_PROJECT_ID\]" -var="bucket_name=\[YOUR_BUCKET_NAME\]"`
+- 3 Download, extract, and ingest data to GCS then to bigquery
+    - open kestra-orchestration folder
+    - set up your account in `gcp_kv_template.yaml`
+    - spin up kestra `docker compose up -d`
+    - run the following flows in kestra:
+    - `gcp_kv.yaml`
+    - `extract_load.yaml`
+    - `gcs_to_bigquery.yaml`
+- 4 Transform data with dbt
+    - open dbt-transformations folder
+    - configure local virtual environment for `dbt-core` and `dbt-bigquery`, here we can do `uv sync` if you have installed `uv`
+    - set up connection between local dbt project and BigQuery `~/.dbt/profiles.yml`
+    - go to the dbt-transformations/movie-lens folder and do `dbt build` to apply the transformations
+- 5 LookerStudio data sources (tables)
+    - Highest rated movies table: `analytics/top_ten`
+    - Average ratings by genre table: `analytics/grouped_genres`
+    - Number of rating by time period pie chart `analytics/ratings_time_pie`
+    - Time Series: `analytics/ssr_timeline`, `analytics/parasite_timeline`
+
+## dbt DAG
+![dbt DAG](dbt_dag.png)
+From raw datasets (left) to final tables.
+
+# Original MovieLens Dataset Readme
 ### Summary
 
 
