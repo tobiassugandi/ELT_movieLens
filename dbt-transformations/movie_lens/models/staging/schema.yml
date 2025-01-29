@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: ratings__timest_converted
+    description: "Ratings table with timestamp converted to regular timestamp, movies included only if they have more than 10k ratings"
+    columns:
+      - name: timestamp_converted
+        description: "Converted timestamp from Unix epoch format"
+        tests:
+          - not_null
+  - name: tenk_movie_ratings
+    description: "Movies joined with ratings table showing average ratings, movies included only if they have more than 10k ratings"
+    columns:
+      - name: movieId
+        description: "Movie ID"
+        tests:
+          - not_null
+          - unique
+  
+  - name: movie_ratings__joined
+    description: "Movies joined with ratings table showing average ratings, all movies included"
+    columns:
+      - name: movieId
+        description: "Movie ID"
+        tests:
+          - not_null
+          - unique

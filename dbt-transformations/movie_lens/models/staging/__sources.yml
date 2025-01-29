@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: raw_dset
+    database: tob-data-project
+    schema: raw_data
+    tables:
+      - name: ratings
+        identifier: ratings
+        description: "This table contains the ratings of the movies by the users"
+      - name: movies
+        identifier: movies
+        description: "This table contains the details of the movies"
+      - name: tags
+        identifier: tags
+        description: "This table contains the tags of the movies"
+      - name: links
+        identifier: links
+        description: "This table contains the links of the movies"

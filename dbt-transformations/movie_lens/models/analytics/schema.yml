@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: ratings_time_pie
+    description: "ratings grouped by time period, movies included only if they have more than 10k ratings"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "(SELECT COUNT(*) FROM {{ ref('ratings__timest_converted') }}) = (SELECT SUM(num_ratings) FROM {{ ref('ratings_time_pie') }})"
+  - name: top_ten
+    description: "top ten movies by average rating, movies included only if they have more than 10k ratings"
+
+  - name: grouped_genres
+    description: "movies grouped by genres, showing average ratings for each generes, movies included only if they have more than 10k ratings"
+
+  - name: ssr_timeline
+    description: "ratings timeline for the Shawshank Redemption"
+  - name: gf_timeline
+    description: "ratings timeline for the Godfather"  
+  - name: parasite_timeline
+    description: "ratings timeline for the Parasite"
