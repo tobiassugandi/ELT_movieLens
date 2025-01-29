@@ -1,11 +1,8 @@
-> The Shawshank Redemption (1994) is the highest rated among popular movies (>10,000 ratings).
-
 # An ETL Pipeline -- Personal Project 
-A simple end-to-end Extract Load Transform (ELT) Pipeline of a movie dataset from MovieLens / GroupLens.
+A simple end-to-end Extract Load Transform (ELT) Pipeline for a [movie dataset](https://files.grouplens.org/datasets/movielens/ml-32m.zip)
+ from MovieLens / GroupLens.
 
-$$
-\underbrace{ \text{Provisioning} }_{ \text{Terraform} } \to \underbrace{ \text{Extract Load} }_{ \text{Kestra} } \to \underbrace{ \text{Transform} }_{ \text{dbt} } \to \underbrace{ \text{BI/Vis} }_{ \text{LookerStudio} }
-$$
+Provision Infrastructure -->  Extract -->  Load  -->  Transform  -->  BI/Viz.
 
 Tools:
 - Infrastructure as Code: 
@@ -22,11 +19,13 @@ Tools:
     - LookerStudio
 
 ## 📊 Looker Studio Dashboard
+The dashboard file is `dashboard.png`.
 
 📌 **Preview the Dashboard Below** ⬇️
 
 ![Dashboard Preview](dashboard.png)
-The dashboard file is `dashboard.png`.
+
+> The Shawshank Redemption (1994) is the highest rated among popular movies (>10,000 ratings).
 
 ## Steps to reproduce
 - 1 Connect your machine to google cloud

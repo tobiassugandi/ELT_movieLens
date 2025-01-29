@@ -6,6 +6,7 @@ kestra-orchestration/gcp_kv.yaml
 dbt-transformations/.vscode
 dbt-transformations/.venv
 dbt-transformations/logs
+dashboard.pdf
 
 # Local Terraform directories and files
 .terraform/
