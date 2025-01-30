@@ -54,6 +54,10 @@ The dashboard file is `dashboard.png`.
     - Average ratings by genre table: `analytics/grouped_genres`
     - Number of rating by time period pie chart `analytics/ratings_time_pie`
     - Time Series: `analytics/ssr_timeline`, `analytics/parasite_timeline`
+- 6 Clean up resources
+    - `terraform destroy -var="project_id=\[YOUR_PROJECT_ID\]" -var="bucket_name=\[YOUR_BUCKET_NAME\]`
+    - remove remaining staging and analytics datasets from bigquery.
+
 
 ## dbt DAG
 ![dbt DAG](dbt_dag.png)

@@ -4,4 +4,14 @@ dbt transformations for the movie lens dataset!
 - provide informations
     - average ratings of each genre
     - time periods when ratings are given
-    - highest rated movies
+    - highest rated movies rating history
+
+- jinja features used:
+    - set variables
+    - for loop
+    - if 
+
+- dbt tests:
+    - non-null
+    - unique
+    - dbt_utils.expression_is_true
